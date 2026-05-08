@@ -35,7 +35,7 @@ The portal has three distinct launch thresholds.
 
 Target: end of Slice 5.
 
-At this point the site must be hosted, live, publicly reachable, visually coherent, and editable by the archivist through a minimal CMS. It may function as a basic institutional website for the Sarasota LGBT Archive.
+At this point the site must be hosted, live, publicly reachable, visually coherent, editable by the archivist through a minimal CMS, and able to receive basic public contact messages. It may function as a basic institutional website for the Sarasota LGBT Archive.
 
 Allowed public functions:
 
@@ -43,7 +43,8 @@ Allowed public functions:
 - about page
 - mission statement
 - project overview
-- contact information or contact placeholder
+- contact page
+- contact form
 - volunteer/contribute placeholder
 - events/news placeholder
 - basic public navigation
@@ -62,6 +63,7 @@ Not yet allowed:
 - collection search
 - Archive OS synchronization
 - preservation-master access of any kind
+- file attachments through the contact form
 
 Required before this threshold is accepted:
 
@@ -70,6 +72,9 @@ Required before this threshold is accepted:
 - HTTPS works
 - basic visual theme is implemented
 - homepage and launch pages are editable through the CMS or a clearly documented content mechanism
+- contact form works in production or has a documented safe temporary fallback
+- contact form does not accept file uploads
+- contact form includes basic spam protection
 - environment variables are documented
 - admin routes are not publicly accessible
 - placeholder public pages do not expose private data
@@ -79,7 +84,7 @@ Required before this threshold is accepted:
 Recommended cheapest initial hosting target:
 
 - Vercel Hobby or Cloudflare Pages for the first public shell if no server-side persistence is needed yet
-- if the Slice 5 CMS requires production persistence, use a low-cost managed PostgreSQL database or a small VPS with PostgreSQL
+- if the Slice 5 CMS or contact form requires production persistence, use a low-cost managed PostgreSQL database or a small VPS with PostgreSQL
 - defer S3 storage, Matomo, large media workflows, and Docker hardening until the application requires them
 
 ### Threshold 2: Public editorial and exhibit site
@@ -165,23 +170,25 @@ Allowed public functions:
 - public/admin boundaries
 - protected admin routes
 
-### Slice 5: Basic live site, theme, minimal CMS, and admin shell
+### Slice 5: Basic live site, theme, minimal CMS, contact form, and admin shell
 
 This is the first public launch threshold.
 
 The site must be deployed and reachable on a public HTTPS URL by the end of this slice.
 
-The site must also have a basic design system and a minimal CMS sufficient for the archivist to create and edit the first public pages without editing source code.
+The site must also have a basic design system, a minimal CMS sufficient for the archivist to create and edit the first public pages without editing source code, and a safe contact form for basic inquiries.
 
 Public-facing requirements:
 
 - live homepage
 - live about page
 - live project overview page
+- live contact page
+- live contact form
 - live contribute/volunteer placeholder page
 - live events/news placeholder page
 - basic navigation
-- footer with contact or forthcoming-contact language
+- footer with contact link or contact language
 - no archival media publication yet
 - no public submissions yet
 - no restricted collection data yet
@@ -196,6 +203,8 @@ Basic design and theme requirements:
 - header and footer design
 - button/link styles
 - basic card styles
+- form styles
+- field validation styles
 - announcement/banner component
 - simple homepage sections
 - design tokens for color, spacing, borders, and typography
@@ -214,7 +223,23 @@ Minimal CMS requirements:
 - status field: draft or published
 - navigation visibility flag
 - homepage content editable through the CMS or through a clearly documented special page record
-- seeded initial pages for homepage, about, project overview, contribute/volunteer, and events/news
+- seeded initial pages for homepage, about, project overview, contact, contribute/volunteer, and events/news
+
+Contact form requirements:
+
+- public contact page at /contact
+- fields for name, email, subject, message, and inquiry type
+- inquiry type options such as general inquiry, volunteering, oral history interest, donation interest, press/media, correction, and other
+- visible privacy notice explaining that the form is for basic contact only and should not be used to submit sensitive personal records, archival files, or confidential donor materials
+- no file upload field
+- server-side validation
+- client-side validation where useful
+- honeypot spam field or equivalent low-cost anti-spam measure
+- rate limiting or abuse-throttling plan
+- success and error states
+- admin-visible contact message list or documented email-forwarding fallback
+- message status values such as new, reviewed, responded, archived, and spam
+- contact-message retention note in documentation
 
 Admin requirements:
 
@@ -226,6 +251,7 @@ Admin requirements:
 - admin route protection
 - visible sign-in/sign-out behavior
 - link from admin dashboard to page management
+- link from admin dashboard to contact messages if messages are stored in the database
 
 Deployment requirements:
 
@@ -239,11 +265,13 @@ Deployment requirements:
 - verify that public pages load in production
 - verify that /admin is protected in production
 - verify that CMS-edited public pages render correctly in production
+- verify that the contact form works in production or has a documented temporary fallback
 
 Suggested first-launch hosting model:
 
 - if the CMS is database-backed in production, use a low-cost managed PostgreSQL provider or small VPS rather than non-persistent SQLite
-- if Vercel or Cloudflare Pages is used for the first launch, pair it with a managed production database when editable content must persist
+- if Vercel or Cloudflare Pages is used for the first launch, pair it with a managed production database when editable content or contact messages must persist
+- if email delivery is used for contact messages, use the least complex privacy-appropriate SMTP provider available at launch
 - use SQLite only for local prototype work unless persistence limitations are explicitly accepted and documented
 - defer S3 media storage until media publication begins
 
@@ -254,8 +282,10 @@ Do not implement at Slice 5:
 - archival object publication
 - donor records
 - Archive OS import
+- public donation-of-materials workflows
+- oral-history intake workflows
 - Matomo analytics unless trivial and privacy-reviewed
-- transactional email unless needed for login
+- transactional email beyond what is required for login or contact-form delivery
 
 ## Phase B: Publication and Editorial System
 
