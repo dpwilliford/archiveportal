@@ -57,6 +57,59 @@ The portal must not store:
 
 Archive OS produces approved web derivatives and curated metadata. The portal imports or receives those derivatives and metadata, then applies publication, privacy, access, and representation rules before display.
 
+## External dependency architecture
+
+The portal must not assume that third-party services integrate seamlessly by default.
+
+Every external dependency must be treated as a controlled integration boundary.
+
+All external dependencies must:
+
+- be wrapped behind internal service modules or adapters
+- avoid direct vendor calls scattered throughout application routes or components
+- have documented environment variables
+- have documented setup procedures
+- have documented local-development fallback behavior
+- have documented production verification procedures
+- have documented privacy and data-handling notes
+- have defined failure behavior
+- have a replacement or migration path documented where possible
+- expose meaningful logging and error reporting
+
+Examples of external dependencies include:
+
+- PostgreSQL providers
+- SMTP/email providers
+- Backblaze B2
+- Cloudflare
+- Matomo
+- Vercel
+- authentication providers
+- rate-limiting systems
+- spam-protection systems
+- analytics systems
+
+## Operations and integrations registry
+
+The portal must maintain an operations and integrations registry.
+
+Each integration record should include:
+
+- integration name
+- purpose
+- service category
+- environment variables required
+- production status
+- development fallback behavior
+- privacy classification
+- data retention considerations
+- external accounts required
+- billing owner or responsible administrator
+- failure modes
+- replacement procedure
+- verification checklist
+- operational notes
+
 ## Deployment model
 
 Initial production target:
@@ -67,6 +120,19 @@ Initial production target:
 - Backblaze B2 media bucket
 - Cloudflare DNS/CDN/SSL
 - GitHub Actions deployment
+
+Early launch deployments may temporarily use:
+
+- Vercel Hobby
+- Cloudflare Pages
+- low-cost managed PostgreSQL providers
+
+provided that:
+
+- persistence limitations are documented
+- rollback procedures are documented
+- data boundaries remain enforced
+- migration to long-term infrastructure remains possible
 
 ## Non-goals
 
