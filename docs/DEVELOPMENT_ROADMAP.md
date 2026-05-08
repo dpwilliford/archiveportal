@@ -196,6 +196,8 @@ Public-facing requirements:
 Basic design and theme requirements:
 
 - site name and identity treatment
+- SVG logo in the site header
+- SVG logo optimized for responsive display and dark/light backgrounds where applicable
 - readable typographic scale
 - consistent page layout
 - responsive mobile-first design
