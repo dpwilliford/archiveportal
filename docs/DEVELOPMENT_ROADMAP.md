@@ -27,7 +27,95 @@ At minimum:
 - schema migration verification
 - role/permission verification where applicable
 
-## Phase A: Foundation
+## Public launch thresholds
+
+The portal has three distinct launch thresholds.
+
+### Threshold 1: Basic live informational site
+
+Target: end of Slice 5.
+
+At this point the site must be hosted, live, and publicly reachable. It may function as a basic institutional website for the Sarasota LGBT Archive.
+
+Allowed public functions:
+
+- homepage
+- about page
+- mission statement
+- project overview
+- contact information or contact placeholder
+- volunteer/contribute placeholder
+- events/news placeholder
+- basic public navigation
+- protected admin shell
+- deployment and operational documentation
+
+Not yet allowed:
+
+- public archival media publication
+- donor submissions
+- sensitive collection description
+- sexually explicit material
+- restricted community records
+- collection search
+- Archive OS synchronization
+- preservation-master access of any kind
+
+Required before this threshold is accepted:
+
+- production deployment exists
+- public URL works
+- HTTPS works
+- environment variables are documented
+- admin routes are not publicly accessible
+- placeholder public pages do not expose private data
+- README includes deployment and local-development instructions
+- repository contains a rollback note or redeployment procedure
+
+Recommended cheapest initial hosting target:
+
+- Vercel Hobby or Cloudflare Pages for the first public shell if no server-side persistence is needed yet
+- defer Hetzner VPS, PostgreSQL production, S3 storage, and Docker until the application needs persistent admin CMS behavior in production
+
+### Threshold 2: Public editorial and exhibit site
+
+Target: end of Slice 10.
+
+At this point the portal may support curated public writing, exhibits, contributor pages, and controlled editorial publication.
+
+Allowed public functions:
+
+- essays
+- exhibit pages
+- contributor pages
+- curated non-sensitive media derivatives
+- publication indexes
+- public event/news pages
+
+Still restricted:
+
+- open public submissions
+- sensitive media publication
+- takedown-dependent workflows
+- complex access-controlled archival browsing
+
+### Threshold 3: Community archive portal
+
+Target: end of Slice 19.
+
+At this point the portal may begin operating as a community-facing archival platform with submission, correction, takedown, access-control, and moderation workflows.
+
+Allowed public functions:
+
+- moderated public submissions
+- correction requests
+- takedown requests
+- access-controlled media
+- explicit-material gating
+- audit-backed moderation
+- public archival media where rights and consent allow
+
+## Phase A: Foundation and first public launch
 
 ### Slice 0: Repository and documentation
 
@@ -72,13 +160,62 @@ At minimum:
 - public/admin boundaries
 - protected admin routes
 
-### Slice 5: Admin shell
+### Slice 5: Basic live site and admin shell
+
+This is the first public launch threshold.
+
+The site must be deployed and reachable on a public HTTPS URL by the end of this slice.
+
+Public-facing requirements:
+
+- live homepage
+- live about page
+- live project overview page
+- live contribute/volunteer placeholder page
+- live events/news placeholder page
+- basic navigation
+- footer with contact or forthcoming-contact language
+- no archival media publication yet
+- no public submissions yet
+- no restricted collection data yet
+
+Admin requirements:
 
 - /admin dashboard
 - admin navigation
 - dashboard cards
 - layout framework
 - audit visibility placeholders
+- admin route protection
+- visible sign-in/sign-out behavior
+
+Deployment requirements:
+
+- choose initial hosting target
+- configure deployment from GitHub
+- configure public URL
+- configure HTTPS
+- document required environment variables
+- document deployment process
+- document rollback or redeploy process
+- verify that public pages load in production
+- verify that /admin is protected in production
+
+Suggested first-launch hosting model:
+
+- use Vercel Hobby or Cloudflare Pages for the first basic public site
+- use SQLite only for local prototype work unless the chosen host supports persistent server-side storage safely
+- if production admin persistence is required immediately, use a managed PostgreSQL provider or a small VPS; otherwise defer production persistence until the CMS slices require it
+
+Do not implement at Slice 5:
+
+- S3 media storage
+- public uploads
+- archival object publication
+- donor records
+- Archive OS import
+- Matomo analytics unless trivial and privacy-reviewed
+- transactional email unless needed for login
 
 ## Phase B: Publication and Editorial System
 
