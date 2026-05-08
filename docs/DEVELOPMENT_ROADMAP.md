@@ -35,7 +35,7 @@ The portal has three distinct launch thresholds.
 
 Target: end of Slice 5.
 
-At this point the site must be hosted, live, and publicly reachable. It may function as a basic institutional website for the Sarasota LGBT Archive.
+At this point the site must be hosted, live, publicly reachable, visually coherent, and editable by the archivist through a minimal CMS. It may function as a basic institutional website for the Sarasota LGBT Archive.
 
 Allowed public functions:
 
@@ -48,6 +48,8 @@ Allowed public functions:
 - events/news placeholder
 - basic public navigation
 - protected admin shell
+- minimal page-editing CMS for launch pages
+- basic site design and theme
 - deployment and operational documentation
 
 Not yet allowed:
@@ -66,6 +68,8 @@ Required before this threshold is accepted:
 - production deployment exists
 - public URL works
 - HTTPS works
+- basic visual theme is implemented
+- homepage and launch pages are editable through the CMS or a clearly documented content mechanism
 - environment variables are documented
 - admin routes are not publicly accessible
 - placeholder public pages do not expose private data
@@ -75,7 +79,8 @@ Required before this threshold is accepted:
 Recommended cheapest initial hosting target:
 
 - Vercel Hobby or Cloudflare Pages for the first public shell if no server-side persistence is needed yet
-- defer Hetzner VPS, PostgreSQL production, S3 storage, and Docker until the application needs persistent admin CMS behavior in production
+- if the Slice 5 CMS requires production persistence, use a low-cost managed PostgreSQL database or a small VPS with PostgreSQL
+- defer S3 storage, Matomo, large media workflows, and Docker hardening until the application requires them
 
 ### Threshold 2: Public editorial and exhibit site
 
@@ -160,11 +165,13 @@ Allowed public functions:
 - public/admin boundaries
 - protected admin routes
 
-### Slice 5: Basic live site and admin shell
+### Slice 5: Basic live site, theme, minimal CMS, and admin shell
 
 This is the first public launch threshold.
 
 The site must be deployed and reachable on a public HTTPS URL by the end of this slice.
+
+The site must also have a basic design system and a minimal CMS sufficient for the archivist to create and edit the first public pages without editing source code.
 
 Public-facing requirements:
 
@@ -179,6 +186,36 @@ Public-facing requirements:
 - no public submissions yet
 - no restricted collection data yet
 
+Basic design and theme requirements:
+
+- site name and identity treatment
+- readable typographic scale
+- consistent page layout
+- responsive mobile-first design
+- accessible color contrast
+- header and footer design
+- button/link styles
+- basic card styles
+- announcement/banner component
+- simple homepage sections
+- design tokens for color, spacing, borders, and typography
+- theme documented in a design/theme specification
+
+Minimal CMS requirements:
+
+- admin page list
+- create page
+- edit page
+- publish/unpublish page
+- title field
+- slug field
+- summary field
+- body field using plain Markdown or a simple rich-text field
+- status field: draft or published
+- navigation visibility flag
+- homepage content editable through the CMS or through a clearly documented special page record
+- seeded initial pages for homepage, about, project overview, contribute/volunteer, and events/news
+
 Admin requirements:
 
 - /admin dashboard
@@ -188,6 +225,7 @@ Admin requirements:
 - audit visibility placeholders
 - admin route protection
 - visible sign-in/sign-out behavior
+- link from admin dashboard to page management
 
 Deployment requirements:
 
@@ -200,12 +238,14 @@ Deployment requirements:
 - document rollback or redeploy process
 - verify that public pages load in production
 - verify that /admin is protected in production
+- verify that CMS-edited public pages render correctly in production
 
 Suggested first-launch hosting model:
 
-- use Vercel Hobby or Cloudflare Pages for the first basic public site
-- use SQLite only for local prototype work unless the chosen host supports persistent server-side storage safely
-- if production admin persistence is required immediately, use a managed PostgreSQL provider or a small VPS; otherwise defer production persistence until the CMS slices require it
+- if the CMS is database-backed in production, use a low-cost managed PostgreSQL provider or small VPS rather than non-persistent SQLite
+- if Vercel or Cloudflare Pages is used for the first launch, pair it with a managed production database when editable content must persist
+- use SQLite only for local prototype work unless persistence limitations are explicitly accepted and documented
+- defer S3 media storage until media publication begins
 
 Do not implement at Slice 5:
 
@@ -219,12 +259,14 @@ Do not implement at Slice 5:
 
 ## Phase B: Publication and Editorial System
 
-### Slice 6: Pages CMS
+### Slice 6: Pages CMS expansion
 
-- create/edit/publish pages
-- title, slug, body, status
-- draft/published state
-- revision timestamps
+- expand the Slice 5 minimal CMS
+- add revision history
+- add editorial notes
+- add draft preview
+- add scheduled publication preparation
+- improve validation
 
 ### Slice 7: Structured content blocks
 
