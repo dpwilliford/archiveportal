@@ -1,0 +1,8 @@
+{
+  "siteName": "Sarasota LGBT Archive",
+  "shortName": "SLA",
+  "tagline": "Preserving Sarasota's LGBTQ History",
+  "contactEmailLabel": "Contact the Archive",
+  "launchMode": "slice5-static-first",
+  "acceptsUploads": false
+}
