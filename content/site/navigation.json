@@ -1,0 +1,7 @@
+[
+  {"label": "About", "href": "/about", "order": 1, "visible": true},
+  {"label": "Project Overview", "href": "/project-overview", "order": 2, "visible": true},
+  {"label": "Contribute", "href": "/contribute", "order": 3, "visible": true},
+  {"label": "Events", "href": "/events", "order": 4, "visible": true},
+  {"label": "Contact", "href": "/contact", "order": 5, "visible": true}
+]
