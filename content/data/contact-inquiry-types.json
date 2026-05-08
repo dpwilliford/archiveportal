@@ -1,0 +1,30 @@
+[
+  {
+    "value": "general",
+    "label": "General inquiry"
+  },
+  {
+    "value": "volunteering",
+    "label": "Volunteering"
+  },
+  {
+    "value": "oral-history",
+    "label": "Oral history"
+  },
+  {
+    "value": "support",
+    "label": "Support or funding"
+  },
+  {
+    "value": "media",
+    "label": "Media inquiry"
+  },
+  {
+    "value": "correction",
+    "label": "Correction"
+  },
+  {
+    "value": "other",
+    "label": "Other"
+  }
+]
