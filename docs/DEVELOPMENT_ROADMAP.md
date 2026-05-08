@@ -24,7 +24,7 @@ At minimum:
 - npx tsc --noEmit
 - npm run build
 - route verification
-- schema migration verification
+- schema migration verification where applicable
 - role/permission verification where applicable
 
 ## Public launch thresholds
@@ -35,7 +35,7 @@ The portal has three distinct launch thresholds.
 
 Target: end of Slice 5.
 
-At this point the site must be hosted, live, publicly reachable, visually coherent, editable by the archivist through a minimal CMS, and able to receive basic public contact messages. It may function as a basic institutional website for the Sarasota LGBT Archive.
+At this point the site must be hosted, live, publicly reachable, visually coherent, editable through a file-based content workflow, and able to receive basic public contact messages. It may function as a basic institutional website for the Sarasota LGBT Archive.
 
 Allowed public functions:
 
@@ -45,18 +45,20 @@ Allowed public functions:
 - project overview
 - contact page
 - contact form
-- volunteer/contribute placeholder
-- events/news placeholder
+- volunteer and contribute pages
+- oral history participation invitation
+- donor and funding invitation
+- events and news placeholder
 - basic public navigation
 - protected admin shell
-- minimal page-editing CMS for launch pages
+- file-based content management for launch pages
 - basic site design and theme
 - deployment and operational documentation
 
 Not yet allowed:
 
 - public archival media publication
-- donor submissions
+- donor submissions with uploads
 - sensitive collection description
 - sexually explicit material
 - restricted community records
@@ -70,22 +72,25 @@ Required before this threshold is accepted:
 - production deployment exists
 - public URL works
 - HTTPS works
+- custom domain may be configured
 - basic visual theme is implemented
-- homepage and launch pages are editable through the CMS or a clearly documented content mechanism
+- launch pages are editable locally and deploy correctly from GitHub
 - contact form works in production or has a documented safe temporary fallback
 - contact form does not accept file uploads
 - contact form includes basic spam protection
+- Google Workspace email delivery is configured or documented
 - environment variables are documented
 - admin routes are not publicly accessible
 - placeholder public pages do not expose private data
 - README includes deployment and local-development instructions
 - repository contains a rollback note or redeployment procedure
 
-Recommended cheapest initial hosting target:
+Recommended low-cost initial hosting target:
 
-- Vercel Hobby or Cloudflare Pages for the first public shell if no server-side persistence is needed yet
-- if the Slice 5 CMS or contact form requires production persistence, use a low-cost managed PostgreSQL database or a small VPS with PostgreSQL
-- defer S3 storage, Matomo, large media workflows, and Docker hardening until the application requires them
+- Vercel Hobby or Cloudflare Pages
+- Google Workspace for institutional email
+- purchased custom domain
+- Cloudflare DNS and SSL if desired
 
 ### Threshold 2: Public editorial and exhibit site
 
@@ -93,37 +98,11 @@ Target: end of Slice 10.
 
 At this point the portal may support curated public writing, exhibits, contributor pages, and controlled editorial publication.
 
-Allowed public functions:
-
-- essays
-- exhibit pages
-- contributor pages
-- curated non-sensitive media derivatives
-- publication indexes
-- public event/news pages
-
-Still restricted:
-
-- open public submissions
-- sensitive media publication
-- takedown-dependent workflows
-- complex access-controlled archival browsing
-
 ### Threshold 3: Community archive portal
 
 Target: end of Slice 19.
 
 At this point the portal may begin operating as a community-facing archival platform with submission, correction, takedown, access-control, and moderation workflows.
-
-Allowed public functions:
-
-- moderated public submissions
-- correction requests
-- takedown requests
-- access-controlled media
-- explicit-material gating
-- audit-backed moderation
-- public archival media where rights and consent allow
 
 ## Phase A: Foundation and first public launch
 
@@ -133,7 +112,7 @@ Allowed public functions:
 - add foundational docs
 - add .env.example
 - add baseline README
-- add issue/PR workflow conventions
+- add issue and PR workflow conventions
 
 ### Slice 1: Public shell
 
@@ -146,13 +125,17 @@ Allowed public functions:
 - placeholder routes
 - shared layout
 
-### Slice 2: Database foundation
+### Slice 2: Optional database foundation
 
-- Prisma initialization
-- SQLite local development database
-- migration discipline
-- seed structure
-- initial schema governance rules
+Database infrastructure is optional for Slice 5.
+
+If a static-first content model is used, production page content does not require a database.
+
+Possible uses at this stage:
+
+- future authentication persistence
+- future contact-message storage
+- prototype schema work
 
 ### Slice 3: Authentication framework
 
@@ -167,375 +150,137 @@ Allowed public functions:
 - role model
 - permission middleware
 - access guards
-- public/admin boundaries
+- public and admin boundaries
 - protected admin routes
 
-### Slice 5: Basic live site, theme, minimal CMS, contact form, and admin shell
+### Slice 5: Basic live site, theme, file-based content workflow, contact form, and admin shell
 
 This is the first public launch threshold.
 
-The site must be deployed and reachable on a public HTTPS URL by the end of this slice.
+The site must be deployed and reachable on a public HTTPS URL.
 
-The site must also have a basic design system, a minimal CMS sufficient for the archivist to create and edit the first public pages without editing source code, and a safe contact form for basic inquiries.
+Content is edited locally in Markdown, MDX, JSON, or equivalent files and published through Git-based deployment.
 
-Public-facing requirements:
+A browser-based database-backed CMS is explicitly deferred until later slices.
 
-- live homepage
-- live about page
-- live project overview page
-- live contact page
-- live contact form
-- live contribute/volunteer placeholder page
-- live events/news placeholder page
-- basic navigation
-- footer with contact link or contact language
-- no archival media publication yet
-- no public submissions yet
-- no restricted collection data yet
+Public-facing requirements include:
 
-Basic design and theme requirements:
+- homepage
+- about page
+- project overview page
+- contact page and form
+- volunteer and contribute page
+- donor and funding invitation
+- oral history participation invitation
+- events and news placeholder page
 
-- site name and identity treatment
-- SVG logo in the site header
-- SVG logo optimized for responsive display and dark/light backgrounds where applicable
-- readable typographic scale
-- consistent page layout
-- responsive mobile-first design
-- accessible color contrast
-- header and footer design
-- button/link styles
-- basic card styles
+Administrative requirements include:
+
+- login and logout
+- protected /admin area
+- deployment documentation
+- environment-variable documentation
+- rollback and redeploy documentation
+
+Design requirements include:
+
+- SVG header logo
+- responsive navigation
+- accessible typography and contrast
+- mobile-first layout
 - form styles
-- field validation styles
-- announcement/banner component
-- simple homepage sections
-- design tokens for color, spacing, borders, and typography
-- theme documented in a design/theme specification
-
-Minimal CMS requirements:
-
-- admin page list
-- create page
-- edit page
-- publish/unpublish page
-- title field
-- slug field
-- summary field
-- body field using plain Markdown or a simple rich-text field
-- status field: draft or published
-- navigation visibility flag
-- homepage content editable through the CMS or through a clearly documented special page record
-- seeded initial pages for homepage, about, project overview, contact, contribute/volunteer, and events/news
-
-Contact form requirements:
-
-- public contact page at /contact
-- fields for name, email, subject, message, and inquiry type
-- inquiry type options such as general inquiry, volunteering, oral history interest, donation interest, press/media, correction, and other
-- visible privacy notice explaining that the form is for basic contact only and should not be used to submit sensitive personal records, archival files, or confidential donor materials
-- no file upload field
-- server-side validation
-- client-side validation where useful
-- honeypot spam field or equivalent low-cost anti-spam measure
-- rate limiting or abuse-throttling plan
-- success and error states
-- admin-visible contact message list or documented email-forwarding fallback
-- message status values such as new, reviewed, responded, archived, and spam
-- contact-message retention note in documentation
-
-Admin requirements:
-
-- /admin dashboard
-- admin navigation
-- dashboard cards
-- layout framework
-- audit visibility placeholders
-- admin route protection
-- visible sign-in/sign-out behavior
-- link from admin dashboard to page management
-- link from admin dashboard to contact messages if messages are stored in the database
-
-Deployment requirements:
-
-- choose initial hosting target
-- configure deployment from GitHub
-- configure public URL
-- configure HTTPS
-- document required environment variables
-- document deployment process
-- document rollback or redeploy process
-- verify that public pages load in production
-- verify that /admin is protected in production
-- verify that CMS-edited public pages render correctly in production
-- verify that the contact form works in production or has a documented temporary fallback
-
-Suggested first-launch hosting model:
-
-- if the CMS is database-backed in production, use a low-cost managed PostgreSQL provider or small VPS rather than non-persistent SQLite
-- if Vercel or Cloudflare Pages is used for the first launch, pair it with a managed production database when editable content or contact messages must persist
-- if email delivery is used for contact messages, use the least complex privacy-appropriate SMTP provider available at launch
-- use SQLite only for local prototype work unless persistence limitations are explicitly accepted and documented
-- defer S3 media storage until media publication begins
+- homepage sections
 
 Do not implement at Slice 5:
 
-- S3 media storage
-- public uploads
-- archival object publication
-- donor records
-- Archive OS import
-- public donation-of-materials workflows
-- oral-history intake workflows
-- Matomo analytics unless trivial and privacy-reviewed
-- transactional email beyond what is required for login or contact-form delivery
+- database-backed editorial CMS
+- archival uploads
+- media publication workflows
+- public search
+- exhibits
+- timelines
+- S3 storage
+- Archive OS synchronization
+- full analytics stack
 
 ## Phase B: Publication and Editorial System
 
-### Slice 6: Pages CMS expansion
+### Slice 6: Database-backed CMS expansion
 
-- expand the Slice 5 minimal CMS
-- add revision history
-- add editorial notes
-- add draft preview
-- add scheduled publication preparation
-- improve validation
+- browser-based page management
+- create and edit pages in admin
+- revision history
+- editorial notes
+- draft preview
+- scheduled publication preparation
+- validation improvements
 
 ### Slice 7: Structured content blocks
 
-- rich text blocks
-- image embeds
-- quote blocks
-- timeline embeds
-- citation blocks
-- reusable layouts
-
 ### Slice 8: Publication system
-
-- essays
-- newsletters
-- editorials
-- publication issues
-- scheduled publication
-- publication indexes
 
 ### Slice 9: Contributor and authority records
 
-- contributor model
-- person records
-- place records
-- contributor pages
-- editorial attribution
-
 ### Slice 10: Exhibit framework
 
-- exhibits
-- exhibit sections
-- exhibit navigation
-- exhibit landing pages
-- exhibit metadata
-
 ### Slice 11: Timeline framework
-
-- timeline entries
-- chronological browsing
-- linked people/places/events
-- historical periods
 
 ## Phase C: Media and Access
 
 ### Slice 12: Media upload pipeline
 
-- image upload
-- media records
-- upload validation
-- MIME validation
-- required metadata
-
 ### Slice 13: Derivative generation
-
-- Sharp image processing
-- thumbnail generation
-- responsive derivatives
-- storage abstraction
-- derivative tracking
 
 ### Slice 14: Media metadata editor
 
-- captions
-- alt text
-- rights statements
-- related people
-- related events
-- visibility levels
-
 ### Slice 15: Access restriction enforcement
 
-- visibility enforcement
-- restricted media routing
-- role-based media access
-- download restrictions
-- access logging
-
 ### Slice 16: Sensitive material handling
-
-- explicit-content gating
-- age affirmation
-- suppressed thumbnails
-- restricted indexing
-- archivist approval workflow
 
 ## Phase D: Community and Governance
 
 ### Slice 17: Public submissions
 
-- submission forms
-- moderation queue
-- contributor contact workflows
-- consent acknowledgement
-
 ### Slice 18: Correction requests
-
-- correction submission forms
-- review queue
-- editorial review workflow
-- resolution states
 
 ### Slice 19: Takedown workflows
 
-- takedown requests
-- temporary suppression
-- archivist review
-- audit logging
-- decision records
-
 ### Slice 20: Volunteer and community workflows
-
-- volunteer resources
-- onboarding pages
-- community participation workflows
-- contact forms
 
 ## Phase E: Discovery and Public UX
 
 ### Slice 21: Search and indexing
 
-- site search
-- search indexes
-- filtering
-- browse views
-- metadata indexing
-
 ### Slice 22: Browse architecture
-
-- browse by people
-- browse by place
-- browse by event
-- browse by publication
-- browse by exhibit
 
 ### Slice 23: SEO and metadata
 
-- SEO metadata
-- OpenGraph metadata
-- structured metadata
-- sitemap generation
-- robots controls
-
 ### Slice 24: Accessibility review
-
-- WCAG review
-- keyboard navigation
-- screen reader testing
-- semantic markup review
-- caption verification
 
 ## Phase F: Infrastructure and Operations
 
 ### Slice 25: S3-compatible storage integration
 
-- Backblaze B2 integration
-- object storage abstraction
-- signed URLs where needed
-- derivative storage
-
 ### Slice 26: Transactional email
-
-- SMTP/SES integration
-- notification templates
-- moderation notifications
-- password reset flows
 
 ### Slice 27: Privacy-preserving analytics
 
-- Matomo integration
-- consent-aware analytics
-- dashboard metrics
-- reporting views
-
 ### Slice 28: Audit infrastructure
-
-- audit logs
-- admin activity logs
-- publication history
-- moderation history
-- access logs
 
 ### Slice 29: Integration monitoring
 
-- integration status registry
-- health checks
-- failed job visibility
-- queue visibility
-
 ### Slice 30: Containerization and deployment
-
-- Docker setup
-- environment management
-- deployment scripts
-- production configuration
 
 ### Slice 31: CI/CD
 
-- GitHub Actions
-- lint automation
-- build verification
-- migration verification
-- deployment workflows
-
 ### Slice 32: PostgreSQL production migration
-
-- PostgreSQL transition
-- migration validation
-- backup procedures
-- restore verification
 
 ## Phase G: Archive OS Boundary Integration
 
 ### Slice 33: Archive OS import contract
 
-- formal import boundaries
-- approved derivative ingestion
-- metadata ingestion rules
-- identifier reconciliation
-- validation rules
-
 ### Slice 34: Derivative synchronization
-
-- derivative update workflows
-- synchronization logging
-- stale derivative detection
-- synchronization visibility
 
 ### Slice 35: Restricted-content synchronization
 
-- visibility synchronization
-- restriction propagation
-- suppression workflows
-- access enforcement
-
 ### Slice 36: Provenance and reconciliation
-
-- Archive OS identifiers
-- provenance validation
-- publication provenance visibility
-- reconciliation reporting
