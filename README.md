@@ -101,6 +101,7 @@ Read these documents before generating or modifying code:
 - `docs/MVP_SCOPE.md`
 - `docs/SYSTEM_ARCHITECTURE.md`
 - `docs/DEVELOPMENT_ROADMAP.md`
+- `docs/PHASE_1_SLICES.md`
 - `docs/SERVICE_INVENTORY.md`
 - `docs/NEWSLETTER_ARCHITECTURE.md`
 - `CLAUDE.md`
@@ -108,3 +109,5 @@ Read these documents before generating or modifying code:
 ## Build Discipline
 
 Before adding a database, authentication, uploads, dashboards, or CMS editing, Claude Code must first complete the barebones public site. The site should be useful even if it is only static content at launch.
+
+Claude Code should implement one slice at a time and must not proceed to later slices unless explicitly instructed.
