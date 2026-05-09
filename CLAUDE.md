@@ -5,6 +5,7 @@ Read the following documents before making any changes:
 - README.md
 - docs/MVP_SCOPE.md
 - docs/SYSTEM_ARCHITECTURE.md
+- docs/CONTENT_MODEL.md
 - docs/DEVELOPMENT_ROADMAP.md
 - docs/PHASE_1_SLICES.md
 - docs/NEWSLETTER_ARCHITECTURE.md
