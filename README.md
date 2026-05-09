@@ -100,6 +100,7 @@ Read these documents before generating or modifying code:
 
 - `docs/MVP_SCOPE.md`
 - `docs/SYSTEM_ARCHITECTURE.md`
+- `docs/CONTENT_MODEL.md`
 - `docs/DEVELOPMENT_ROADMAP.md`
 - `docs/PHASE_1_SLICES.md`
 - `docs/SERVICE_INVENTORY.md`
