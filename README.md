@@ -49,7 +49,7 @@ Required technical behavior:
 - accessible semantic HTML
 - fast static or mostly-static rendering
 - contact form with spam protection or temporary mailto fallback
-- newsletter interest form or temporary external signup link
+- newsletter signup with local consent tracking and double opt-in
 - basic SEO and social preview metadata
 - deployment-ready configuration
 - clear local development instructions
@@ -91,6 +91,8 @@ Recommended baseline:
 - SMTP-compatible transactional email when forms are introduced
 - GitHub Actions for CI
 - Cloudflare for DNS, SSL, caching, and possibly hosting
+- Listmonk for self-hosted newsletter publishing (deployed after launch)
+- Amazon SES for confirmation and newsletter email delivery
 
 ## Documentation Index
 
@@ -100,6 +102,7 @@ Read these documents before generating or modifying code:
 - `docs/SYSTEM_ARCHITECTURE.md`
 - `docs/DEVELOPMENT_ROADMAP.md`
 - `docs/SERVICE_INVENTORY.md`
+- `docs/NEWSLETTER_ARCHITECTURE.md`
 - `CLAUDE.md`
 
 ## Build Discipline
